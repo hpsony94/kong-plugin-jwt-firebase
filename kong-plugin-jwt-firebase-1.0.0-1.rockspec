@@ -9,7 +9,7 @@ description = {
 }
 dependencies = {
   "lua >= 5.1",
-  "kong >= 1.1"
+  --"kong >= 1.1"
 }
 build = {
   type = "builtin",
