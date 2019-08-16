@@ -61,6 +61,12 @@ $ curl -ik -X GET \
     --url https://localhost:8443/test \
     --header 'Authorization: Bearer <token-id> '
 ```
+This plugin also supports legacy authenticaion without Bearer
+```sh
+$ curl -ik -X GET \
+    --url https://localhost:8443/test \
+    --header 'Authorization: <token-id> '
+```
 
 #### TODO: Improvement or Tech debt
 TBD
