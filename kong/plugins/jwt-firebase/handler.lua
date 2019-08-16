@@ -11,6 +11,7 @@ local type = type
 local ipairs = ipairs
 local tostring = tostring
 local re_gmatch = ngx.re.gmatch
+local re_match = ngx.re.match
 local ngx_set_header = ngx.req.set_header
 
 local JwtHandler = {}
@@ -93,6 +94,10 @@ local function retrieve_token(conf)
 
   local authorization_header = kong.request.get_header("authorization")
   if authorization_header then
+    local m, err = re_match(authorization_header, "\\s*[Bb]earer\\s+(.+)")
+    if not m then
+      return authorization_header
+    end
     local iterator, iter_err = re_gmatch(authorization_header, "\\s*[Bb]earer\\s+(.+)")
     if not iterator then
       return nil, iter_err
