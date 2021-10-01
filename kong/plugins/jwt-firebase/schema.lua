@@ -4,7 +4,8 @@ local typedefs = require "kong.db.schema.typedefs"
 return {
   name = "jwt-firebase",
   fields = {
-    { run_on = typedefs.run_on_first },
+    -- run_on_first typedef/field was removed in Kong 2.x
+    -- { run_on = typedefs.run_on_first },
     { protocols = typedefs.protocols_http },
     { config = {
         type = "record",
