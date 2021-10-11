@@ -1,7 +1,6 @@
 local constants = require "kong.constants"
 local local_constants = require "kong.plugins.jwt-firebase.constants"
 local jwt_decoder = require "kong.plugins.jwt.jwt_parser"
-local openssl_pkey = require "openssl.pkey"
 
 
 local shm = "/dev/shm/kong.jwt-firebase.pubkey"
@@ -29,7 +28,7 @@ local function grab_public_key_bykid(t_kid)
   kong.log.debug("### Grabbing pubkey from google ..")
   local google_url = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
   local magic = " | cut -d \"\\\"\" -f4- | sed 's/\\\\n/\\n/g\' | sed 's/\"//g' | openssl x509 -pubkey -noout"
-  local cmd = "curl -s " .. google_url .. " | grep -i " .. t_kid .. magic
+  local cmd = "wget -qO - " .. google_url .. " | grep -i " .. t_kid .. magic
 
   kong.log.debug("### cmd: " .. cmd)
   local cmd_handle = io.popen(cmd)
@@ -64,7 +63,7 @@ local function get_public_key_from_file(dir)
     return nil
   end
   io.input(file)
-  content = io.read("*a")
+  local content = io.read("*a")
   io.close(file)
   return content
 end
@@ -211,7 +210,7 @@ local function do_authentication(conf)
   -- -- -- -- assign this key to public_key
   local public_key = get_public_key_from_file(shm)
   kong.log.debug(public_key)
-  if not pcall(openssl_pkey.new, public_key) or public_key == nil then
+  if public_key == nil then
     kong.log.info("Public key in a file is empty or invalid")
     --local t_public_key = grab_1st_public_key()
     local t_public_key = grab_public_key_bykid(kid)
