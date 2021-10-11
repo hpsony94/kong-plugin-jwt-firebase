@@ -63,7 +63,7 @@ local function get_public_key_from_file(dir)
     return nil
   end
   io.input(file)
-  content = io.read("*a")
+  local content = io.read("*a")
   io.close(file)
   return content
 end
