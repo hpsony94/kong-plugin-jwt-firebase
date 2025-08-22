@@ -1,4 +1,5 @@
 ## JWT Firebase custom [Kong](https://www.getkong.org) plugins
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hpsony94/kong-plugin-jwt-firebase)
 
 Contents:
 #### JWT Firbase plugin
